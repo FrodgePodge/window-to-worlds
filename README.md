@@ -19,9 +19,6 @@ The easiest way needs no download at all, and it is always the latest version:
 
 **Prefer a file?** [![Download for Lively](https://img.shields.io/badge/Download-for%20Lively-c8aa6e?style=for-the-badge&labelColor=0a1428)](https://github.com/FrodgePodge/window-to-worlds/releases/latest/download/worlds-2026-map.zip) Don't unzip it: drag the zip into Lively's window. The results still update on their own, but you would need to download again for new features.
 
-No Lively? Open the address above in any browser and press F11.
-
-**More than one monitor?** The map is one 1920x1080 picture. If your wallpaper spans several screens, add `?monitor=2` to the address to put it on the second one (`?monitor=1` is the first). To show times in another time zone, add `&tz=America/New_York`.
 ## Using it
 
 - **Next game** is highlighted in teal, and a game in progress shows LIVE.
