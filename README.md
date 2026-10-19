@@ -22,6 +22,7 @@ The easiest way needs no download at all, and it is always the latest version:
 ## Using it
 
 - **Next game** is highlighted in teal, and a game in progress shows LIVE.
+- **Time zone**: times follow your computer. Use the dropdown in the title bar to pick another one (it's remembered).
 - **Hover a team** to see its roster. This needs Lively's mouse input switched on (see below).
 - **Click a team** to pick the winner. It fills into the next round, so you can build a bracket as you go and see your champion. Click again to undo. This needs Lively's mouse input switched on (Lively settings, Wallpaper, "Input"); picks are saved on your computer only.
 - Dashed cards only have an expected date. Riot hasn't published later Swiss rounds yet, and the knockout teams are drawn after the Swiss stage.

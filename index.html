@@ -36,6 +36,10 @@ body{background:
   background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
 #top .sub{color:var(--dim);font-size:14px;letter-spacing:.04em;margin-top:6px}
 #top .sub b{color:var(--gold)}
+#tzsel{font:inherit;font-weight:700;color:var(--gold);background:transparent;border:0;border-bottom:1px dotted var(--gold-lo);padding:0 2px;margin:0;cursor:pointer;outline:none;max-width:300px;-webkit-appearance:none;appearance:none}
+#tzsel:hover,#tzsel:focus{border-bottom-color:var(--gold);padding-right:14px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23c8aa6e' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right center}
+#tzsel option,#tzsel optgroup{background:#0a1428;color:var(--ink);font-weight:500}
 #top .key{margin-left:auto;display:flex;gap:14px;font-size:12.5px;color:var(--dim);letter-spacing:.06em;margin-top:6px}
 #top .key span::before{content:"";display:inline-block;width:7px;height:7px;transform:rotate(45deg);margin-right:6px;background:var(--c)}
 
@@ -142,7 +146,7 @@ body.idle #get{opacity:0;pointer-events:none}   /* only shows when the mouse mov
 <div id="stage">
   <div id="top">
     <span class="lol">LEAGUE OF LEGENDS</span><h1>WORLDS 2026</h1>
-    <span class="sub">Los Angeles → Allen → Brooklyn · 15 Oct – 14 Nov · times in <b id="tzname"></b></span>
+    <span class="sub">Los Angeles → Allen → Brooklyn · 15 Oct – 14 Nov · times in <select id="tzsel" title="Show every time in another time zone"></select></span>
     <div class="key">
       <span style="--c:var(--lck)">LCK</span><span style="--c:var(--lpl)">LPL</span><span style="--c:var(--lec)">LEC</span>
       <span style="--c:var(--lcs)">LCS</span><span style="--c:var(--lcp)">LCP</span><span style="--c:var(--cblol)">CBLOL</span>
@@ -164,7 +168,7 @@ body.idle #get{opacity:0;pointer-events:none}   /* only shows when the mouse mov
 const CFG=window.WORLDS_CONFIG||{};
 const Q=new URLSearchParams(location.search);   // the web version is configured with ?monitor=2&tz=Europe/London
 const MONITOR=+Q.get("monitor")||CFG.monitor||1;                 // when the wallpaper spans several monitors, which one shows the map (1 = leftmost)
-const TZ_OVERRIDE=Q.get("tz")||CFG.timezone||"";           // e.g. "Europe/London"; empty = the computer's own time zone
+// time zone: ?tz= in the address, else the one picked in the dropdown (remembered), else config.js, else the computer's own
 // Where the live results come from. The page checks this every 10 minutes and uses it when it is newer than
 // the copy bundled in data.js. "" stays offline.
 const REMOTE_DATA=CFG.remoteData!==undefined?CFG.remoteData:"https://raw.githubusercontent.com/FrodgePodge/window-to-worlds/main/data.json";
@@ -182,7 +186,10 @@ const $=(s,e=document)=>e.querySelector(s);
 const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-const TZ=TZ_OVERRIDE||Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC";
+const DEVICE_TZ=Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC";
+let SAVED_TZ="";try{SAVED_TZ=localStorage.getItem("worlds-tz")||""}catch(e){}
+const validTz=z=>{try{new Intl.DateTimeFormat("en-GB",{timeZone:z});return !!z}catch(e){return false}};
+let TZ=[Q.get("tz"),SAVED_TZ,CFG.timezone,DEVICE_TZ].find(validTz)||"UTC";
 function fmt(date,opts){try{return new Intl.DateTimeFormat("en-GB",{timeZone:TZ,...opts}).format(date)}catch(e){return ""}}
 const fTime=d=>fmt(d,{hour:"2-digit",minute:"2-digit",hour12:false});
 const fDay=d=>fmt(d,{weekday:"short",day:"numeric",month:"short"});
@@ -314,7 +321,7 @@ function drawEdges(){
 function render(){
   if(!D)return;
   const now=Date.now();
-  $("#tzname").textContent=TZ.replace(/_/g," ");
+  const tzs=$("#tzsel");if(tzs&&tzs.value!==TZ)tzs.value=TZ;
   cards.forEach(o=>{
     const m=o.m;
     o.start=m.t?Date.parse(m.t):null;
@@ -362,6 +369,26 @@ async function pull(){
   }catch(e){}   // offline or blocked: keep what we have
 }
 
+/* ---------- time zone dropdown (top bar) ---------- */
+const POPULAR=["America/Los_Angeles","America/Denver","America/Chicago","America/New_York","America/Sao_Paulo","UTC","Europe/London","Europe/Paris","Europe/Berlin","Europe/Madrid","Europe/Istanbul","Africa/Johannesburg","Asia/Dubai","Asia/Kolkata","Asia/Bangkok","Asia/Ho_Chi_Minh","Asia/Singapore","Asia/Shanghai","Asia/Taipei","Asia/Seoul","Asia/Tokyo","Australia/Sydney","Pacific/Auckland"];
+function tzLabel(z){
+  let off="";
+  try{const p=new Intl.DateTimeFormat("en-GB",{timeZone:z,timeZoneName:"shortOffset"}).formatToParts(new Date()).find(p=>p.type==="timeZoneName");off=p?" ("+p.value.replace("GMT","UTC")+")":""}catch(e){}
+  return z.replace(/_/g," ")+off;
+}
+function buildTz(){
+  const sel=$("#tzsel");if(!sel)return;
+  let all=[];try{all=Intl.supportedValuesOf("timeZone")}catch(e){}
+  const opt=(z,pre)=>`<option value="${esc(z)}">${pre||""}${esc(tzLabel(z))}</option>`;
+  const pop=POPULAR.filter(z=>z==="UTC"||!all.length||all.includes(z));
+  const rest=all.filter(z=>!pop.includes(z));
+  sel.innerHTML=opt(DEVICE_TZ,"Your device: ")+`<optgroup label="Popular">${pop.map(z=>opt(z)).join("")}</optgroup>`+
+    (rest.length?`<optgroup label="All time zones">${rest.map(z=>opt(z)).join("")}</optgroup>`:"");
+  if(![...sel.options].some(o=>o.value===TZ))sel.insertAdjacentHTML("afterbegin",opt(TZ));
+  sel.value=TZ;
+  sel.addEventListener("change",()=>{TZ=sel.value;try{localStorage.setItem("worlds-tz",TZ)}catch(e){}render()});
+}
+
 /* ---------- fixed 1920x1080 stage, scaled to one monitor ---------- */
 function fit(){
   const vw=innerWidth,vh=innerHeight;
@@ -399,6 +426,7 @@ function wake(){document.body.classList.remove("idle");clearTimeout(idleT);idleT
 document.body.classList.add("idle");
 addEventListener("resize",fit);
 fit();
+buildTz();
 setData(window.WORLDS_DATA);
 requestAnimationFrame(render);          // redraw connectors once the logos have settled the layout
 addEventListener("load",render);
