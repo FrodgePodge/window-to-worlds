@@ -170,7 +170,7 @@ const CFG=window.WORLDS_CONFIG||{};
 const Q=new URLSearchParams(location.search);   // the web version is configured with ?monitor=2&tz=Europe/London
 const MONITOR=+Q.get("monitor")||CFG.monitor||1;                 // when the wallpaper spans several monitors, which one shows the map (1 = leftmost)
 // time zone: ?tz= in the address, else the one picked in the dropdown (remembered), else config.js, else the computer's own
-// Where the live results come from. The page checks this every 10 minutes and uses it when it is newer than
+// Where the live results come from. The page checks this once on opening and then every 30 minutes, and uses it when it is newer than
 // the copy bundled in data.js. "" stays offline.
 const REMOTE_DATA=CFG.remoteData!==undefined?CFG.remoteData:"https://raw.githubusercontent.com/FrodgePodge/window-to-worlds/main/data.json";
 
@@ -363,7 +363,7 @@ function render(){
 async function pull(){
   if(!REMOTE_DATA)return;
   try{
-    const r=await fetch(REMOTE_DATA+"?t="+Date.now(),{cache:"no-store"});
+    const r=await fetch(REMOTE_DATA,{cache:"no-cache"});   // revalidates, so an unchanged file costs almost nothing
     if(!r.ok)return;
     const d=await r.json();
     if(validData(d)&&Date.parse(d.updated)>Date.parse(D.updated))setData(d);
@@ -440,7 +440,7 @@ requestAnimationFrame(render);          // redraw connectors once the logos have
 addEventListener("load",render);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);   // web fonts change text widths
 setInterval(render,60000);
-pull();setInterval(pull,10*60000);
+pull();setInterval(pull,30*60000);
 </script>
 </body>
 </html>

@@ -29,7 +29,7 @@ The easiest way needs no download at all, and it is always the latest version:
 
 ## Live updates
 
-The page checks `data.json` in this repository every 10 minutes and redraws when it is newer than the copy in your download. Results and the draws are committed here as they happen. If you are offline it keeps showing the bundled copy.
+The page checks `data.json` in this repository when it opens and then every 30 minutes, and redraws when it is newer than the copy in your download. Results and the draws are committed here as they happen. If you are offline it keeps showing the bundled copy.
 
 ## Settings
 
@@ -47,7 +47,7 @@ All results, fixtures and teams live in `data.json`; `data.js` is a copy of it b
 
 1. Edit `data.json` (set `updated` to the current UTC time, since newer copies win).
 2. Run `./sync-data.ps1` to rebuild `data.js`.
-3. Commit both and push. Everyone's copy updates within about 15 minutes.
+3. Commit both and push. Everyone's copy updates within about 40 minutes.
 
 A match looks like this:
 
