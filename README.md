@@ -11,11 +11,11 @@ The easiest way needs no download at all, and it is always the latest version:
 1. Install [Lively Wallpaper](https://rocksdanister.github.io/lively/) (free).
 2. In Lively, click the **+** (Add Wallpaper) button, paste this address and press Enter:
 
-   `https://frodgepodge.github.io/worlds-2026-map/`
+   `https://frodgepodge.github.io/window-to-worlds/`
 
 3. Click the new tile to set it as your wallpaper. It updates itself from then on.
 
-**Prefer a file?** [![Download for Lively](https://img.shields.io/badge/Download-for%20Lively-c8aa6e?style=for-the-badge&labelColor=0a1428)](https://github.com/FrodgePodge/worlds-2026-map/releases/latest/download/worlds-2026-map.zip) Don't unzip it: drag the zip into Lively's window. The results still update on their own, but you would need to download again for new features.
+**Prefer a file?** [![Download for Lively](https://img.shields.io/badge/Download-for%20Lively-c8aa6e?style=for-the-badge&labelColor=0a1428)](https://github.com/FrodgePodge/window-to-worlds/releases/latest/download/worlds-2026-map.zip) Don't unzip it: drag the zip into Lively's window. The results still update on their own, but you would need to download again for new features.
 
 No Lively? Open the address above in any browser and press F11.
 

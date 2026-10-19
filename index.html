@@ -162,7 +162,7 @@ const MONITOR=+Q.get("monitor")||CFG.monitor||1;                 // when the wal
 const TZ_OVERRIDE=Q.get("tz")||CFG.timezone||"";           // e.g. "Europe/London"; empty = the computer's own time zone
 // Where the live results come from. The page checks this every 10 minutes and uses it when it is newer than
 // the copy bundled in data.js. "" stays offline.
-const REMOTE_DATA=CFG.remoteData!==undefined?CFG.remoteData:"https://raw.githubusercontent.com/FrodgePodge/worlds-2026-map/main/data.json";
+const REMOTE_DATA=CFG.remoteData!==undefined?CFG.remoteData:"https://raw.githubusercontent.com/FrodgePodge/window-to-worlds/main/data.json";
 
 /* All results, fixtures and teams live in data.json (bundled as data.js, refreshed from REMOTE_DATA).
    Match fields: id, t (UTC start) or when (expected date), bo, rec/rd (Swiss), lab, a/b (team keys),
