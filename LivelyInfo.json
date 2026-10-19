@@ -1,0 +1,21 @@
+﻿{
+    "AppVersion":  "1.0.0.0",
+    "Title":  "Worlds 2026 Map",
+    "Thumbnail":  "thumbnail.png",
+    "Preview":  "thumbnail.png",
+    "Desc":  "Every League of Legends Worlds 2026 game on one draggable map: Play-In and knockout brackets, and the Swiss stage laid out by win/loss record. Times in your local zone.",
+    "Author":  "Aemily",
+    "License":  null,
+    "Contact":  null,
+    "Type":  1,
+    "FileName":  "index.html",
+    "Arguments":  null,
+    "IsAbsolutePath":  false,
+    "Id":  null,
+    "Tags":  [
+                 "esports",
+                 "league of legends",
+                 "worlds"
+             ],
+    "Version":  0
+}

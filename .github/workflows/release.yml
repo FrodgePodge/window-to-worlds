@@ -1,0 +1,20 @@
+﻿name: Release zip
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the zip Lively installs (LivelyInfo.json must sit at its root)
+        run: |
+          mkdir -p dist/pkg
+          cp index.html config.js data.js data.json LivelyInfo.json thumbnail.png dist/pkg/
+          cp -r icons dist/pkg/icons
+          (cd dist/pkg && zip -r ../worlds-2026-map.zip .)
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/worlds-2026-map.zip

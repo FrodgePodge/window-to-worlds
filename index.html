@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worlds 2026 Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#010a13; --ink:#f0e6d2; --dim:#a09b8c; --faint:#6e6b64;
+  --gold:#c8aa6e; --gold-hi:#f0e6d2; --gold-lo:#785a28; --gold-dk:#463714;
+  --teal:#0ac8b9; --red:#e84057;
+  --card-a:#0f1b33; --card-b:#091222;
+  --win:#0ac8b9; --loss:#6f7585; --live:#e84057; --next:#0ac8b9; --elim:#e84057;
+  --lck:#ff6b81; --lpl:#f5b942; --lec:#5aaeff; --lcs:#3fd0aa; --lcp:#bb8cff; --cblol:#ff9858;
+  --display:"Cinzel","Beaufort for LOL","Trajan Pro","Palatino Linotype",Georgia,serif;
+  --body:"Barlow Semi Condensed","Spiegel","Segoe UI",system-ui,sans-serif;
+  --hex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23c8aa6e' stroke-opacity='.07'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23c8aa6e' stroke-opacity='.07'/%3E%3C/svg%3E");
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .78 0 0 0 0 .67 0 0 0 0 .43 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);
+  font-family:var(--body);user-select:none;cursor:default}
+body{background:
+  radial-gradient(ellipse at 50% -10%,#0f2a4a 0,transparent 55%),
+  radial-gradient(ellipse at 90% 100%,#1a1038aa 0,transparent 50%),
+  var(--hex),var(--bg)}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+
+#top{position:absolute;left:28px;top:8px;right:28px;height:46px;display:flex;align-items:center;gap:18px;white-space:nowrap}
+#top .lol{position:absolute;left:3px;top:-3px;font-family:var(--display);font-size:10px;letter-spacing:.42em;color:var(--dim);line-height:1}
+#top h1{margin:8px 0 0;font-family:var(--display);font-size:34px;letter-spacing:.16em;font-weight:700;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
+#top .sub{color:var(--dim);font-size:14px;letter-spacing:.04em;margin-top:6px}
+#top .sub b{color:var(--gold)}
+#top .key{margin-left:auto;display:flex;gap:14px;font-size:12.5px;color:var(--dim);letter-spacing:.06em;margin-top:6px}
+#top .key span::before{content:"";display:inline-block;width:7px;height:7px;transform:rotate(45deg);margin-right:6px;background:var(--c)}
+
+.panel{position:absolute;padding:14px 14px 12px;
+  background:var(--noise),linear-gradient(180deg,rgba(13,26,48,.96),rgba(4,10,20,.98));
+  border:1px solid transparent;border-image:linear-gradient(180deg,var(--gold),var(--gold-lo) 55%,var(--gold-dk)) 1;
+  box-shadow:0 0 0 1px #000,0 18px 50px #000b,inset 0 0 70px #0b1f4044}
+.panel::before{content:"";position:absolute;inset:3px;border:1px solid #c8aa6e1f;pointer-events:none}
+.panel::after{content:"";position:absolute;left:50%;top:-6px;width:9px;height:9px;margin-left:-5px;transform:rotate(45deg);background:var(--bg);border:1px solid var(--gold)}
+.panel>header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;padding-bottom:7px;gap:16px;
+  border-bottom:1px solid transparent;border-image:linear-gradient(90deg,var(--gold-lo),var(--gold-dk) 70%,transparent) 1}
+.panel h2{margin:0;font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold) 60%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
+.panel .where{color:var(--dim);font-size:12.5px;letter-spacing:.03em}
+#swiss{left:24px;top:62px;width:1206px}
+#ko{left:1250px;top:62px;width:646px}
+#playin{left:1250px;top:592px;width:646px}
+#notes{position:absolute;left:1250px;top:890px;width:646px;font-size:13px;color:var(--faint);line-height:1.5;letter-spacing:.02em}
+#notes b{color:var(--dim)}
+
+/* swiss: x = wins minus losses, each column stacks its rounds downward */
+.swissgrid{display:grid;grid-template-columns:repeat(7,162px);gap:8px;align-items:start}
+.scol{width:162px;flex:none;display:flex;flex-direction:column;gap:6px}
+.colhead{font-family:var(--display);font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);text-align:center;height:12px;white-space:nowrap}
+.colhead.e{color:#b3485a}.colhead.q{color:#27a79c}
+.cell{border:1px solid #3b3220;padding:4px 5px 0;background:linear-gradient(180deg,#0a1426,#060d1a)}
+.cell .rec{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.08em;margin:0 3px 4px;color:var(--gold);display:flex;justify-content:space-between;align-items:baseline}
+.cell .rec small{font-family:var(--body);color:var(--faint);font-weight:500;font-size:10.5px;letter-spacing:.06em}
+.cell.q{border-color:#0b6b64;background:linear-gradient(180deg,#06211f,#041412)}.cell.q .rec{color:var(--teal)}
+.cell.e{border-color:#7a2433;background:linear-gradient(180deg,#220c14,#13070c)}.cell.e .rec{color:#f26a7c}
+.cards{display:flex;flex-direction:column;gap:3px;padding-bottom:4px}
+.slot{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;height:22px;padding:0 6px;margin-bottom:4px;background:#0f1a30;border:1px solid #2a2a2e}
+.slot.tbd{color:#454956;font-style:italic;font-weight:400}
+.card.empty:not(.next){opacity:.72}
+.card.empty .time{color:#8b7a4e}
+.cell.q .slot{background:#0a2e2b;border-color:#0b5a54}.cell.e .slot{background:#321520;border-color:#6a2233}
+
+/* brackets */
+.bracket{position:relative;display:flex;gap:26px;align-items:stretch}
+.bcol{display:flex;flex-direction:column;flex:1;min-width:0}
+.bcol .bhead{font-family:var(--display);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);text-align:center;margin-bottom:6px}
+.bwrap{display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:14px}
+.bracket svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.bracket path{fill:none;stroke:var(--gold-lo);stroke-width:1.5}
+.bracket path.lo{stroke-dasharray:4 4;stroke:var(--gold-dk)}
+.finalcol .card{border-color:var(--gold);box-shadow:0 0 18px #c8aa6e33}
+#playin .bracket{gap:16px}
+
+.card{position:relative;background:linear-gradient(180deg,var(--card-a),var(--card-b));border:1px solid #3b3220;border-left:2px solid var(--gold-lo);padding:3px 6px 3px}
+.card .time{font-size:11.5px;font-weight:600;color:var(--gold);letter-spacing:.03em;display:flex;justify-content:space-between;align-items:baseline;white-space:nowrap;margin-bottom:1px;line-height:13px}
+.card .time i{font-style:normal;color:var(--faint);font-size:10px;font-weight:500}
+.card .time .flag{font-style:normal;font-weight:700;font-size:9px;letter-spacing:.1em;padding:0 5px;line-height:12px}
+.flag.nx{background:var(--teal);color:#021a1a}.flag.lv{background:var(--live);color:#fff}
+.card .lab{font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t{display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;height:14px;line-height:14px;letter-spacing:.02em}
+.lg{width:14px;height:14px;object-fit:contain;flex:none}
+.lg.ph{background:#4a4d57;opacity:.28;width:8px;height:8px;margin:0 3px;transform:rotate(45deg)}
+.t .n{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t .s{font-weight:700;min-width:12px;text-align:right}
+.t.w .n,.t.w .s{color:var(--teal)}
+.t.lo .n,.t.lo .s{color:var(--loss)}
+.t.lo .lg{opacity:.45}
+.t.tbd .n{color:#454956;font-style:italic;font-weight:400}
+.tag{font-size:8px;font-weight:700;letter-spacing:.07em;line-height:10px;padding:0 3px;border:1px solid;flex:none}
+.tag.lck{color:var(--lck)}.tag.lpl{color:var(--lpl)}.tag.lec{color:var(--lec)}.tag.lcs{color:var(--lcs)}.tag.lcp{color:var(--lcp)}.tag.cblol{color:var(--cblol)}
+.t.lo .tag{opacity:.55}
+.card.done{opacity:.88}
+.t[data-m]{cursor:pointer}
+.t[data-m]:hover{background:#1a2a4a}
+.t.pw{background:#08302d;box-shadow:inset 2px 0 0 var(--teal)}.t.pw .n,.t.pw .s{color:var(--teal)}
+.t.pl .n,.t.pl .s{color:var(--loss)}.t.pl .lg{opacity:.45}
+.champ{position:absolute;left:-4px;right:-4px;top:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:9px;padding:8px;
+  border:1px solid var(--gold);background:linear-gradient(180deg,#3a2c10,#1c1507);font-size:17px;font-weight:700;color:var(--gold-hi);letter-spacing:.05em;box-shadow:0 0 22px #c8aa6e44}
+.champ span{font-family:var(--display);font-size:10px;letter-spacing:.2em;color:var(--gold)}.champ .lg{width:30px;height:30px}
+.card.prov{border-style:dashed;border-left-style:solid}
+.card.live{border-color:var(--live);border-left-color:var(--live);box-shadow:0 0 14px #e8405766}
+.card.next{border-color:var(--teal);border-left-color:var(--teal);box-shadow:0 0 16px #0ac8b966}
+.card.big{padding:4px 10px 4px}
+.card.big .time{font-size:13px;margin-bottom:2px}
+.card.big .t{font-size:15px;height:20px;gap:7px}
+.card.big .lg{width:18px;height:18px}
+.card.big .lab{font-size:11px;margin-bottom:1px}
+.card.big .tag{font-size:9px;line-height:11px}
+.card.big .lg.ph,.card.mid .lg.ph{width:9px;height:9px;margin:0 4.5px}
+#roster{position:absolute;z-index:50;display:none;width:216px;pointer-events:none;padding:10px 12px 9px;
+  background:var(--noise),linear-gradient(180deg,#0f1c36,#060d1a);
+  border:1px solid transparent;border-image:linear-gradient(180deg,var(--gold),var(--gold-lo)) 1;box-shadow:0 12px 34px #000c,0 0 0 1px #000}
+#roster .rh{display:flex;align-items:center;gap:9px;padding-bottom:7px;margin-bottom:6px;border-bottom:1px solid #3b3220}
+#roster .rh img{width:30px;height:30px;object-fit:contain}
+#roster .rh b{display:block;font-family:var(--display);font-size:14px;letter-spacing:.08em;color:var(--gold-hi)}
+#roster .rr{display:flex;align-items:baseline;gap:10px;height:21px;font-size:15px;font-weight:600}
+#roster .rr i{font-style:normal;width:46px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lo)}
+#roster .rn{margin-top:6px;padding-top:6px;border-top:1px solid #3b3220;font-size:11.5px;color:var(--dim);line-height:1.35}
+.card.mid .t{font-size:13px;height:18px}
+.card.mid .lg{width:16px;height:16px}
+.card.mid .time{font-size:11.5px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="top">
+    <span class="lol">LEAGUE OF LEGENDS</span><h1>WORLDS 2026</h1>
+    <span class="sub">Los Angeles → Allen → Brooklyn · 15 Oct – 14 Nov · times in <b id="tzname"></b></span>
+    <div class="key">
+      <span style="--c:var(--lck)">LCK</span><span style="--c:var(--lpl)">LPL</span><span style="--c:var(--lec)">LEC</span>
+      <span style="--c:var(--lcs)">LCS</span><span style="--c:var(--lcp)">LCP</span><span style="--c:var(--cblol)">CBLOL</span>
+    </div>
+  </div>
+  <section class="panel" id="swiss"></section>
+  <section class="panel" id="ko"></section>
+  <section class="panel" id="playin"></section>
+  <div id="notes"></div>
+  <div id="roster"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script>
+/* ============ SETTINGS ============ */
+// These come from config.js (monitor, timezone, remoteData); the defaults below apply if it is missing.
+const CFG=window.WORLDS_CONFIG||{};
+const Q=new URLSearchParams(location.search);   // the web version is configured with ?monitor=2&tz=Europe/London
+const MONITOR=+Q.get("monitor")||CFG.monitor||1;                 // when the wallpaper spans several monitors, which one shows the map (1 = leftmost)
+const TZ_OVERRIDE=Q.get("tz")||CFG.timezone||"";           // e.g. "Europe/London"; empty = the computer's own time zone
+// Where the live results come from. The page checks this every 10 minutes and uses it when it is newer than
+// the copy bundled in data.js. "" stays offline.
+const REMOTE_DATA=CFG.remoteData!==undefined?CFG.remoteData:"https://raw.githubusercontent.com/FrodgePodge/worlds-2026-map/main/data.json";
+
+/* All results, fixtures and teams live in data.json (bundled as data.js, refreshed from REMOTE_DATA).
+   Match fields: id, t (UTC start) or when (expected date), bo, rec/rd (Swiss), lab, a/b (team keys),
+   sa/sb (scores once played), la/lb (placeholder labels), fa/fb (which match's winner fills the slot). */
+
+const REGION={lck:"LCK",lpl:"LPL",lec:"LEC",lcs:"LCS",lcp:"LCP",cblol:"CBLOL"};
+const PLAYIN_EDGES=[["M1","M3"],["M2","M3"],["M1","M4","lo"],["M2","M4","lo"],["M3","M6"],["M3","M5","lo"],["M4","M5"],["M5","M6"]];
+const KO_EDGES=[["M40","M44"],["M41","M44"],["M42","M45"],["M43","M45"],["M44","M46"],["M45","M46"]];
+const TERM=[["3-0",5,3,2,"q"],["3-1",6,2,3,"q"],["3-2",7,1,3,"q"],["0-3",5,-3,2,"e"],["1-3",6,-2,3,"e"],["2-3",7,-1,3,"e"]];
+
+const $=(s,e=document)=>e.querySelector(s);
+const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const TZ=TZ_OVERRIDE||Intl.DateTimeFormat().resolvedOptions().timeZone||"UTC";
+function fmt(date,opts){try{return new Intl.DateTimeFormat("en-GB",{timeZone:TZ,...opts}).format(date)}catch(e){return ""}}
+const fTime=d=>fmt(d,{hour:"2-digit",minute:"2-digit",hour12:false});
+const fDay=d=>fmt(d,{weekday:"short",day:"numeric",month:"short"});
+const dur=bo=>bo===5?240:bo===3?150:60;
+
+/* ---------- the data in use (replaced whenever newer data arrives) ---------- */
+let D,TEAMS,PLAYIN,SWISS,KO,ALL,BYID;
+let cards=[],brackets=[],termCells={},results={};
+let PICKS={};
+try{PICKS=JSON.parse(localStorage.getItem("worlds-picks")||"{}")}catch(e){}
+const savePicks=()=>{try{localStorage.setItem("worlds-picks",JSON.stringify(PICKS))}catch(e){}};
+const slot=(m,s)=>m[s]||(m["f"+s]?W(m["f"+s]):null);          // team in a slot, if known
+function W(id){                                                // winner of a match: official result, else the pick
+  const m=BYID[id];if(!m)return null;
+  if(m.sa!=null)return m.sa>m.sb?m.a:m.b;
+  return PICKS[id]?slot(m,PICKS[id]):null;
+}
+function clearDown(id){ALL.forEach(m=>{if(m.fa===id||m.fb===id){delete PICKS[m.id];clearDown(m.id)}})}
+const validData=d=>d&&d.teams&&Array.isArray(d.playin)&&Array.isArray(d.swiss)&&Array.isArray(d.ko)&&d.updated;
+
+function teamRow(key,score,state,label,mode,pa){
+  const T=key&&TEAMS[key];
+  if(!T)return `<div class="t tbd"><i class="lg ph"></i><span class="n">${esc(label||(key?key:"TBD"))}</span></div>`;
+  const cls={w:"w",l:"lo",pw:"pw",pl:"pl"}[state]||"";
+  return `<div class="t ${cls}" data-team="${key}"${pa||""}><img class="lg" src="icons/${key}.png" alt="" onerror="this.style.visibility='hidden'"><span class="n" title="${esc(T.name)}">${esc(mode==="big"?T.short:T.code)}</span><b class="tag ${T.region}">${REGION[T.region]}</b>${score==null?"":`<span class="s">${score}</span>`}</div>`;
+}
+function makeCard(m,mode){
+  const c=el("div","card "+mode);
+  cards.push({m,c,mode});return c;
+}
+
+/* ---------- build (runs again whenever new data arrives) ---------- */
+function header(panel,name,where){panel.innerHTML=`<header><h2>${name}</h2><span class="where">${where}</span></header>`}
+function bracket(cols,edges){
+  const b=el("div","bracket");
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");b.appendChild(svg);
+  const byId={};
+  cols.forEach(col=>{
+    const cc=el("div","bcol"+(col.cls?" "+col.cls:""));
+    cc.appendChild(el("div","bhead",esc(col.head)));
+    const w=el("div","bwrap");cc.appendChild(w);
+    col.ms.forEach(m=>{const c=makeCard(m,col.mode);byId[m.id]=c;w.appendChild(c)});
+    b.appendChild(cc);
+  });
+  b._edges=edges;b._ids=byId;b._svg=svg;
+  return b;
+}
+const recDiff=r=>{const [w,l]=r.split("-").map(Number);return w-l};
+const winner=m=>m.sa==null?null:(m.sa>m.sb?m.a:m.b), loser=m=>m.sa==null?null:(m.sa>m.sb?m.b:m.a);
+
+function build(){
+  cards=[];brackets=[];termCells={};results={};
+  const P=id=>PLAYIN.find(m=>m.id===id);
+
+  header($("#playin"),"Play-In","Riot Games Arena · Los Angeles · double elimination, all Bo5");
+  const pb=bracket([
+    {head:"Round 1",mode:"mid",ms:[P("M1"),P("M2")]},
+    {head:"Round 2",mode:"mid",ms:[P("M3"),P("M4")]},
+    {head:"Decider",mode:"mid",ms:[P("M5")]},
+    {head:"Qualified",mode:"mid",ms:[P("M6")]}],PLAYIN_EDGES);
+  $("#playin").appendChild(pb);brackets.push(pb);
+
+  header($("#ko"),"Knockouts","Allen, Texas · final at Barclays Center, Brooklyn · all Bo5");
+  const kb=bracket([
+    {head:"Quarterfinals",mode:"big",ms:KO.slice(0,4)},
+    {head:"Semifinals",mode:"big",ms:KO.slice(4,6)},
+    {head:"Grand Final",mode:"big",cls:"finalcol",ms:[KO[6]]}],KO_EDGES);
+  $("#ko").appendChild(kb);brackets.push(kb);
+
+  header($("#swiss"),"Swiss Stage","Allen, Texas · everyone starts in the middle: a win moves a team right, a loss moves it left · 3 wins advance, 3 losses are out");
+  const grid=el("div","swissgrid");$("#swiss").appendChild(grid);
+  // column = wins minus losses, row = the smaller of wins and losses (the layout Riot uses for the Swiss stage)
+  const place=(rec,node)=>{const [w,l]=rec.split("-").map(Number);node.style.gridColumn=w-l+4;node.style.gridRow=Math.min(w,l)+2;grid.appendChild(node)};
+  const groups={};SWISS.forEach(m=>(groups[m.rec]=groups[m.rec]||[]).push(m));
+  Object.entries(groups).forEach(([rec,ms])=>{
+    const cell=el("div","cell");
+    cell.appendChild(el("div","rec",`<span>${rec.replace("-","–")}</span><small>R${ms[0].rd} · ${ms.length} game${ms.length>1?"s":""}</small>`));
+    const box=el("div","cards");
+    ms.forEach(m=>box.appendChild(makeCard(m,"sw")));
+    cell.appendChild(box);
+    place(rec,cell);
+  });
+  // terminal cells: 3-x qualified, x-3 eliminated; teams derived from Swiss results
+  SWISS.forEach(m=>{
+    const w=winner(m);if(!w)return;
+    const [wi,li]=m.rec.split("-").map(Number);
+    if(wi+1===3)(results[`3-${li}`]=results[`3-${li}`]||[]).push(w);
+    if(li+1===3)(results[`${wi}-3`]=results[`${wi}-3`]||[]).push(loser(m));
+  });
+  TERM.forEach(([rec,row,diff,cap,kind])=>{
+    const cell=el("div","cell "+kind);
+    cell.appendChild(el("div","rec",`<span>${rec.replace("-","–")}</span><small>${kind==="q"?"qualified":"eliminated"}</small>`));
+    place(rec,cell);termCells[rec]={cell,cap,kind};
+  });
+  ["Eliminated","","","Everyone starts here","","","Qualified"].forEach((t,i)=>{
+    const h=el("div","colhead"+(i===0?" e":i===6?" q":""),t||"&nbsp;");
+    h.style.gridColumn=i+1;h.style.gridRow=1;grid.appendChild(h);
+  });
+  render();
+}
+
+function setData(d){
+  const old=D;
+  try{
+    D=d;TEAMS=d.teams;PLAYIN=d.playin;SWISS=d.swiss;KO=d.ko;
+    ALL=[...PLAYIN,...SWISS,...KO];BYID=Object.fromEntries(ALL.map(m=>[m.id,m]));
+    build();
+  }catch(e){ if(old&&old!==d)setData(old) }   // bad data from the network never breaks the page
+}
+
+/* ---------- connectors ---------- */
+function pos(node,root){let x=0,y=0,n=node;while(n&&n!==root){x+=n.offsetLeft;y+=n.offsetTop;n=n.offsetParent}return{x,y,w:node.offsetWidth,h:node.offsetHeight}}
+function drawEdges(){
+  brackets.forEach(b=>{
+    b._svg.innerHTML="";
+    b._edges.forEach(([f,t,kind])=>{
+      if(!b._ids[f]||!b._ids[t])return;
+      const a=pos(b._ids[f],b),z=pos(b._ids[t],b);
+      const x1=a.x+a.w,y1=a.y+a.h/2,x2=z.x,y2=z.y+z.h/2,mx=(x1+x2)/2;
+      const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+      p.setAttribute("d",`M${x1},${y1} H${mx} V${y2} H${x2}`);
+      if(kind==="lo")p.setAttribute("class","lo");
+      b._svg.appendChild(p);
+    });
+  });
+}
+
+/* ---------- render (times, scores, status) ---------- */
+function render(){
+  if(!D)return;
+  const now=Date.now();
+  $("#tzname").textContent=TZ.replace(/_/g," ");
+  cards.forEach(o=>{
+    const m=o.m;
+    o.start=m.t?Date.parse(m.t):null;
+    o.done=m.sa!=null;
+    o.live=!!o.start&&now>=o.start&&now<o.start+dur(m.bo)*60000&&!o.done;
+  });
+  const next=[...cards].filter(o=>o.start&&o.start>now&&!o.done).sort((a,b)=>a.start-b.start)[0]||null;
+  cards.forEach(o=>{
+    const {m,c,mode}=o;
+    const ka=slot(m,"a"),kb=slot(m,"b"),pk=o.done?null:PICKS[m.id];
+    const aw=o.done&&m.sa>m.sb,bw=o.done&&m.sb>m.sa;
+    const sa=o.done?(aw?"w":"l"):pk?(pk==="a"?"pw":"pl"):"",sb=o.done?(bw?"w":"l"):pk?(pk==="b"?"pw":"pl"):"";
+    const pa=s=>(o.done||!(s==="a"?ka:kb))?"":` data-m="${m.id}" data-s="${s}"`;
+    const w46=m.id==="M46"&&W("M46");
+    const champ=w46&&TEAMS[w46]?`<div class="champ"><span>CHAMPION</span><img class="lg" src="icons/${w46}.png" alt=""><b>${esc(TEAMS[w46].short)}</b></div>`:"";
+    c.className="card "+mode+(!ka&&!kb?" empty":"")+(m.when&&!m.t?" prov":"")+(o.done?" done":"")+(o.live?" live":"")+(o===next?" next":"");
+    const left=m.t?`${mode==="sw"?fmt(new Date(m.t),{day:"numeric",month:"short"}):fDay(new Date(m.t))} · ${fTime(new Date(m.t))}`:`~${esc(m.when||"TBC")}`;
+    const right=o.live?`<span class="flag lv">LIVE</span>`:o===next?`<span class="flag nx">NEXT</span>`:(m.bo!==(mode==="sw"?1:5)?`<i>Bo${m.bo}</i>`:"");
+    const lab=mode==="sw"?"":`<div class="lab">${m.id} · ${esc(m.lab)}</div>`;
+    c.innerHTML=`${lab}<div class="time"><span>${left}</span>${right}</div>`+
+      teamRow(ka,m.sa,sa,m.la,mode,pa("a"))+teamRow(kb,m.sb,sb,m.lb,mode,pa("b"))+champ;
+  });
+  Object.entries(termCells).forEach(([rec,o])=>{
+    o.cell.querySelectorAll(".slot").forEach(s=>s.remove());
+    const teams=results[rec]||[];
+    for(let i=0;i<o.cap;i++){
+      const k=teams[i],T=k&&TEAMS[k];
+      const sl=el("div","slot"+(T?"":" tbd"),T?`<img class="lg" src="icons/${k}.png" alt=""><span class="n">${esc(T.code)}</span><b class="tag ${T.region}">${REGION[T.region]}</b>`:"TBD");
+      if(T)sl.dataset.team=k;
+      o.cell.appendChild(sl);
+    }
+  });
+  $("#notes").innerHTML=`${D.note?`<b>${esc(D.note)}</b> `:""}Dashed cards have an expected date only (~). Click a team to pick the winner: it fills the next round (click again to undo; picks are saved on this computer). Data updated ${fmt(new Date(D.updated),{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:false})}.`;
+  drawEdges();
+}
+
+/* ---------- live data: use whichever of the bundled and remote copies is newer ---------- */
+async function pull(){
+  if(!REMOTE_DATA)return;
+  try{
+    const r=await fetch(REMOTE_DATA+"?t="+Date.now(),{cache:"no-store"});
+    if(!r.ok)return;
+    const d=await r.json();
+    if(validData(d)&&Date.parse(d.updated)>Date.parse(D.updated))setData(d);
+  }catch(e){}   // offline or blocked: keep what we have
+}
+
+/* ---------- fixed 1920x1080 stage, scaled to one monitor ---------- */
+function fit(){
+  const vw=innerWidth,vh=innerHeight;
+  const n=Math.max(1,Math.round(vw/vh/(16/9)));      // monitors the wallpaper spans
+  const mw=vw/n,s=Math.min(mw/1920,vh/1080),m=Math.min(MONITOR,n)-1;
+  $("#stage").style.transform=`translate(${m*mw+(mw-1920*s)/2}px,${(vh-1080*s)/2}px) scale(${s})`;
+}
+/* ---------- hover a team for its roster ---------- */
+const tip=$("#roster");
+function hideTip(){tip.style.display="none"}
+function showTip(row){
+  const k=row.dataset.team,T=TEAMS&&TEAMS[k];
+  if(!T||!T.roster){hideTip();return}
+  tip.innerHTML=`<div class="rh"><img src="icons/${k}.png" alt=""><div><b>${esc(T.name)}</b><span class="tag ${T.region}">${REGION[T.region]}</span></div></div>`+
+    T.roster.map(([role,name])=>`<div class="rr"><i>${esc(role.slice(0,3))}</i><span>${esc(name)}</span></div>`).join("")+
+    (T.rosterNote?`<div class="rn">${esc(T.rosterNote)}</div>`:"");
+  tip.style.display="block";
+  const st=$("#stage").getBoundingClientRect(),s=st.width/1920,r=row.getBoundingClientRect();
+  const w=tip.offsetWidth,h=tip.offsetHeight;
+  let x=(r.right-st.left)/s+10,y=(r.top-st.top)/s-8;
+  if(x+w>1912)x=(r.left-st.left)/s-w-10;              // no room on the right: open to the left
+  tip.style.left=x+"px";tip.style.top=Math.max(8,Math.min(y,1072-h))+"px";
+}
+$("#stage").addEventListener("mouseover",e=>{const r=e.target.closest("[data-team]");r?showTip(r):hideTip()});
+$("#stage").addEventListener("mouseleave",hideTip);
+$("#stage").addEventListener("click",e=>{
+  const r=e.target.closest(".t[data-m]");if(!r)return;
+  const id=r.dataset.m,s=r.dataset.s;
+  if(PICKS[id]===s)delete PICKS[id];else PICKS[id]=s;
+  clearDown(id);savePicks();render();
+});
+addEventListener("resize",fit);
+fit();
+setData(window.WORLDS_DATA);
+requestAnimationFrame(render);          // redraw connectors once the logos have settled the layout
+addEventListener("load",render);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);   // web fonts change text widths
+setInterval(render,60000);
+pull();setInterval(pull,10*60000);
+</script>
+</body>
+</html>
