@@ -9,15 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: data.json is valid and data.js matches it
+      - name: data.json is valid, and data.js is its spoiler-free copy
         run: |
           node -e "
           const fs=require('fs');
-          const j=fs.readFileSync('data.json','utf8');
-          const d=JSON.parse(j);
+          const d=JSON.parse(fs.readFileSync('data.json','utf8'));
           for (const k of ['updated','teams','playin','swiss','ko']) if (!d[k]) throw new Error('missing '+k);
           const js=fs.readFileSync('data.js','utf8');
-          if (js.trim() !== ('window.WORLDS_DATA = '+j+';').trim()) throw new Error('data.js is out of date: run sync-data.ps1');
+          const b=JSON.parse(js.replace(/^window\.WORLDS_DATA = /,'').replace(/;\s*$/,''));
+          if (!b.scheduleOnly) throw new Error('data.js must be schedule-only: run sync-data.ps1');
+          const ids=g=>g.map(m=>m.id).join(',');
+          for (const g of ['playin','swiss','ko']) if (ids(d[g])!==ids(b[g])) throw new Error('data.js is out of date for '+g+': run sync-data.ps1');
+          for (const m of [...b.playin,...b.swiss,...b.ko]) if ('sa' in m || 'sb' in m) throw new Error(m.id+' leaks a score into data.js');
           const keys=new Set(Object.keys(d.teams));
           for (const m of [...d.playin,...d.swiss,...d.ko]) for (const s of ['a','b']) if (m[s] && !keys.has(m[s])) throw new Error(m.id+' uses unknown team '+m[s]);
           console.log('ok');

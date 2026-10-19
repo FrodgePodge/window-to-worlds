@@ -4,6 +4,6 @@ window.WORLDS_CONFIG = {
   monitor: 1,
   // Show times in this time zone, e.g. "Europe/London" or "America/New_York". Empty = your computer's own zone.
   timezone: "",
-  // Where live results are fetched from (checked on opening and then every 30 minutes). Empty string = stay offline.
+  // Where live results are fetched from (only fetched when someone presses "Update results"). Empty string = stay offline.
   remoteData: "https://raw.githubusercontent.com/FrodgePodge/window-to-worlds/main/data.json"
 };

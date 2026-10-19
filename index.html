@@ -124,9 +124,13 @@ body{background:
 .card.big .lab{font-size:11px;margin-bottom:1px}
 .card.big .tag{font-size:9px;line-height:11px}
 .card.big .lg.ph,.card.mid .lg.ph{width:9px;height:9px;margin:0 4.5px}
-#get{display:none;position:absolute;right:24px;bottom:22px;z-index:40;padding:7px 16px;font-family:var(--display);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--gold-hi);
+#actions{position:absolute;right:24px;bottom:22px;z-index:40;display:flex;gap:10px;align-items:stretch;transition:opacity .5s}
+body.idle #actions{opacity:0;pointer-events:none}   /* buttons only appear when the mouse moves, so the wallpaper stays clean */
+#get{display:none}
+#upd:disabled{opacity:.7;cursor:default}
+#upd,#get{cursor:pointer;padding:7px 16px;font-family:var(--display);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--gold-hi);
   background:linear-gradient(180deg,#1c2b4a,#0b1426);border:1px solid var(--gold);box-shadow:0 0 14px #c8aa6e33;transition:opacity .5s,background .2s,box-shadow .2s}
-#get:hover{background:linear-gradient(180deg,#2a3f68,#12213d);box-shadow:0 0 20px #c8aa6e77}
+#upd:hover:not(:disabled),#get:hover{background:linear-gradient(180deg,#2a3f68,#12213d);box-shadow:0 0 20px #c8aa6e77}
 body.web #get{display:block}
 body.idle #get{opacity:0;pointer-events:none}   /* only shows when the mouse moves, so the wallpaper itself stays clean */
 #roster{position:absolute;z-index:50;display:none;width:216px;pointer-events:none;padding:10px 12px 9px;
@@ -158,7 +162,10 @@ body.idle #get{opacity:0;pointer-events:none}   /* only shows when the mouse mov
   <section class="panel" id="playin"></section>
   <div id="notes"></div>
   <div id="roster"></div>
-  <a id="get" href="https://github.com/FrodgePodge/window-to-worlds" target="_blank" rel="noopener">Get this as a wallpaper!</a>
+  <div id="actions">
+    <button id="upd" type="button" title="Fetch the latest scores and results (spoilers!)">Update results</button>
+    <a id="get" href="https://github.com/FrodgePodge/window-to-worlds" target="_blank" rel="noopener">Get this as a wallpaper!</a>
+  </div>
 </div>
 
 <script src="config.js"></script>
@@ -170,7 +177,7 @@ const CFG=window.WORLDS_CONFIG||{};
 const Q=new URLSearchParams(location.search);   // the web version is configured with ?monitor=2&tz=Europe/London
 const MONITOR=+Q.get("monitor")||CFG.monitor||1;                 // when the wallpaper spans several monitors, which one shows the map (1 = leftmost)
 // time zone: ?tz= in the address, else the one picked in the dropdown (remembered), else config.js, else the computer's own
-// Where the live results come from. The page checks this once on opening and then every 30 minutes, and uses it when it is newer than
+// Where the live results come from. Used only when you press "Update results": the page then fetches this and uses it when it is newer than
 // the copy bundled in data.js. "" stays offline.
 const REMOTE_DATA=CFG.remoteData!==undefined?CFG.remoteData:"https://raw.githubusercontent.com/FrodgePodge/window-to-worlds/main/data.json";
 
@@ -355,21 +362,31 @@ function render(){
       o.cell.appendChild(sl);
     }
   });
-  $("#notes").innerHTML=`${D.note?`<b>${esc(D.note)}</b> `:""}Dashed cards have an expected date only (~). Click a team to pick the winner: it fills the next round (click again to undo; picks are saved on this computer). Data updated ${fmt(new Date(D.updated),{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:false})}.`;
+  $("#notes").innerHTML=`${D.note?`<b>${esc(D.note)}</b> `:""}Dashed cards have an expected date only (~). Click a team to pick the winner: it fills the next round (click again to undo; picks are saved on this computer). ${D.scheduleOnly?"Schedule only: press Update results (bottom right) to see scores and who advances.":"Results as of "+fmt(new Date(D.updated),{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",hour12:false})+"."}`;
   drawEdges();
 }
 
-/* ---------- live data: use whichever of the bundled and remote copies is newer ---------- */
-async function pull(){
-  if(!REMOTE_DATA)return;
+/* ---------- results arrive only when you press "Update results" (spoiler-free by default) ---------- */
+// The bundled data.js has the schedule but no scores. The button fetches the full data.json from GitHub and remembers it.
+async function pullNow(){
+  if(!REMOTE_DATA)return "offline";
   try{
     const r=await fetch(REMOTE_DATA,{cache:"no-cache"});   // revalidates, so an unchanged file costs almost nothing
-    if(!r.ok)return;
+    if(!r.ok)return "error";
     const d=await r.json();
-    if(validData(d)&&Date.parse(d.updated)>Date.parse(D.updated))setData(d);
-  }catch(e){}   // offline or blocked: keep what we have
+    if(!validData(d))return "error";
+    const newer=D.scheduleOnly||Date.parse(d.updated)>Date.parse(D.updated);
+    try{localStorage.setItem("worlds-data",JSON.stringify(d))}catch(e){}
+    if(!newer)return "current";
+    setData(d);return "updated";
+  }catch(e){return "error"}   // offline or blocked: keep what we have
 }
-
+$("#upd").addEventListener("click",async()=>{
+  const b=$("#upd");b.disabled=true;b.textContent="Checking…";
+  const r=await pullNow();
+  b.textContent={updated:"Updated",current:"Already up to date",error:"Couldn't reach GitHub",offline:"No update source"}[r];
+  setTimeout(()=>{b.textContent="Update results";b.disabled=false},3500);
+});
 /* ---------- time zone dropdown (top bar) ---------- */
 const POPULAR=["America/Los_Angeles","America/Denver","America/Chicago","America/New_York","America/Sao_Paulo","UTC","Europe/London","Europe/Paris","Europe/Berlin","Europe/Madrid","Europe/Istanbul","Africa/Johannesburg","Asia/Dubai","Asia/Kolkata","Asia/Bangkok","Asia/Ho_Chi_Minh","Asia/Singapore","Asia/Shanghai","Asia/Taipei","Asia/Seoul","Asia/Tokyo","Australia/Sydney","Pacific/Auckland"];
 function tzLabel(z){
@@ -435,12 +452,13 @@ document.body.classList.add("idle");
 addEventListener("resize",fit);
 fit();
 buildTz();
-setData(window.WORLDS_DATA);
+let START=window.WORLDS_DATA;   // what you pressed Update for last time wins over the bundled schedule
+try{const s=JSON.parse(localStorage.getItem("worlds-data")||"null");if(validData(s)&&(START.scheduleOnly||Date.parse(s.updated)>Date.parse(START.updated)))START=s}catch(e){}
+setData(START);
 requestAnimationFrame(render);          // redraw connectors once the logos have settled the layout
 addEventListener("load",render);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);   // web fonts change text widths
 setInterval(render,60000);
-pull();setInterval(pull,30*60000);
 </script>
 </body>
 </html>
