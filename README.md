@@ -21,7 +21,7 @@ The easiest way needs no download at all, and it is always the latest version:
 
 No Lively? Open the address above in any browser and press F11.
 
-**More than one monitor?** The map is one 1920x1080 picture. If your wallpaper spans several screens, add `?monitor=2` to the address to put it on the second one (`?monitor=1` is the first). To show times in another time zone, add `&tz=America/New_York`.
+**More than one monitor?** The map is one 1920x1080 picture. If your wallpaper spans several screens, add `?monitor=2` to the address to put it on the second one (`?monitor=1` is the first). Times follow your computer's time zone. Use the dropdown in the title bar to switch to another (your choice is remembered), or add `&tz=America/New_York` to the address.
 ## Using it
 
 - **Next game** is highlighted in teal, and a game in progress shows LIVE.
