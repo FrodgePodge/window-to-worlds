@@ -120,6 +120,10 @@ body{background:
 .card.big .lab{font-size:11px;margin-bottom:1px}
 .card.big .tag{font-size:9px;line-height:11px}
 .card.big .lg.ph,.card.mid .lg.ph{width:9px;height:9px;margin:0 4.5px}
+#get{position:absolute;right:24px;bottom:22px;z-index:40;padding:7px 16px;font-family:var(--display);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--gold-hi);
+  background:linear-gradient(180deg,#1c2b4a,#0b1426);border:1px solid var(--gold);box-shadow:0 0 14px #c8aa6e33;transition:opacity .5s,background .2s,box-shadow .2s}
+#get:hover{background:linear-gradient(180deg,#2a3f68,#12213d);box-shadow:0 0 20px #c8aa6e77}
+body.idle #get{opacity:0;pointer-events:none}   /* only shows when the mouse moves, so the wallpaper itself stays clean */
 #roster{position:absolute;z-index:50;display:none;width:216px;pointer-events:none;padding:10px 12px 9px;
   background:var(--noise),linear-gradient(180deg,#0f1c36,#060d1a);
   border:1px solid transparent;border-image:linear-gradient(180deg,var(--gold),var(--gold-lo)) 1;box-shadow:0 12px 34px #000c,0 0 0 1px #000}
@@ -149,6 +153,7 @@ body{background:
   <section class="panel" id="playin"></section>
   <div id="notes"></div>
   <div id="roster"></div>
+  <a id="get" href="https://github.com/FrodgePodge/window-to-worlds" target="_blank" rel="noopener">Get this as a wallpaper!</a>
 </div>
 
 <script src="config.js"></script>
@@ -388,6 +393,10 @@ $("#stage").addEventListener("click",e=>{
   if(PICKS[id]===s)delete PICKS[id];else PICKS[id]=s;
   clearDown(id);savePicks();render();
 });
+let idleT;
+function wake(){document.body.classList.remove("idle");clearTimeout(idleT);idleT=setTimeout(()=>document.body.classList.add("idle"),4000)}
+["pointermove","pointerdown"].forEach(ev=>addEventListener(ev,wake,{passive:true}));
+document.body.classList.add("idle");
 addEventListener("resize",fit);
 fit();
 setData(window.WORLDS_DATA);

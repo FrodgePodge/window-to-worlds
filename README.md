@@ -4,6 +4,8 @@ A fixed, Riot-styled wallpaper of every game at the League of Legends World Cham
 
 ![Screenshot](screenshot.png)
 
+[![Support me on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/frodgepodge)
+
 ## Install (Lively Wallpaper, Windows)
 
 The easiest way needs no download at all, and it is always the latest version:
@@ -69,6 +71,10 @@ A match looks like this:
 Each team in `teams` has a `roster` (a list of `[role, name]` pairs shown when you hover it) and an optional `rosterNote`.
 
 To release a new download for the button, push a tag such as `v1.1` and the workflow attaches the zip.
+
+## Support
+
+This is free and always will be. If it made your Worlds a little nicer, you can [buy me a coffee on Ko-fi](https://ko-fi.com/frodgepodge).
 
 ## Credits and disclaimer
 
